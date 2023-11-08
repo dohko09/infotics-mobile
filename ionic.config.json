@@ -1,0 +1,7 @@
+{
+  "name": "infoti",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
