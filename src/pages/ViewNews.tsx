@@ -20,11 +20,9 @@ import {
   IonLabel,
   IonFooter,
 } from "@ionic/react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { formatearFecha } from "../functions/methods";
-const AllNews: React.FC = () => {
+const ViewNews: React.FC = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -125,4 +123,4 @@ const AllNews: React.FC = () => {
   );
 };
 
-export default AllNews;
+export default ViewNews;

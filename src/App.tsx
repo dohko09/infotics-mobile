@@ -1,6 +1,8 @@
 import {
   IonApp,
+  IonAvatar,
   IonButton,
+  IonChip,
   IonContent,
   IonHeader,
   IonIcon,
@@ -39,12 +41,11 @@ import { Redirect, Route } from "react-router";
 import AllNews from "./pages/AllNews";
 import ViewNews from "./pages/ViewNews";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
+import UsersRegistered from "./pages/EmailsRegistered";
 import {
   newspaperOutline,
   logInOutline,
   peopleOutline,
-  personAddOutline,
   logOutOutline,
 } from "ionicons/icons";
 
@@ -55,8 +56,17 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonMenu contentId="main-content">
         <IonHeader>
-          <IonToolbar>         
-            <IonTitle>InfoTICS App</IonTitle>
+          <IonToolbar>
+            <IonTitle>InfoTICS</IonTitle>
+            <IonChip disabled slot="start">
+              <IonAvatar>
+                <img
+                  alt="Silhouette of a person's head"
+                  src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                />
+              </IonAvatar>
+              <IonLabel>Wilson Herrera</IonLabel>
+            </IonChip>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
@@ -66,17 +76,13 @@ const App: React.FC = () => (
                 <IonIcon color="medium" icon={newspaperOutline} slot="start" />
                 <IonLabel>Todas las noticias</IonLabel>
               </IonItem>
-              <IonItem lines="full">
+              <IonItem routerLink="/emails-registered" lines="full">
                 <IonIcon color="medium" icon={peopleOutline} slot="start" />
                 <IonLabel>Usuarios Registrados</IonLabel>
               </IonItem>
-              <IonItem lines="full">
+              <IonItem routerLink="/login" lines="full">
                 <IonIcon color="medium" icon={logInOutline} slot="start" />
                 <IonLabel>Iniciar Sesión</IonLabel>
-              </IonItem>
-              <IonItem lines="full">
-                <IonIcon color="medium" icon={personAddOutline} slot="start" />
-                <IonLabel>Registrarse</IonLabel>
               </IonItem>
               <IonItem lines="none">
                 <IonIcon color="medium" icon={logOutOutline} slot="start" />
@@ -88,7 +94,7 @@ const App: React.FC = () => (
       </IonMenu>
       <IonRouterOutlet id="main-content">
         <Route path="/login" component={Login} exact />
-        <Route path="/register" component={Register} exact />
+        <Route path="/emails-registered" component={UsersRegistered} exact />
         <Route path="/all-news" component={AllNews} exact />
         <Route path="/view-news/:id" component={ViewNews} exact />
         <Redirect to="/all-news" />
