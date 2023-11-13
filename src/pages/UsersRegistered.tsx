@@ -52,6 +52,7 @@ const UsersRegistered: React.FC = () => {
       name: "ID",
       selector: (row: any) => row.id,
       sortable: true,
+      width: "15%",
     },
     {
       name: "Nombres completos",

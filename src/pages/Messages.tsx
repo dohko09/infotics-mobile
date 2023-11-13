@@ -48,6 +48,7 @@ const Messages: React.FC = () => {
       name: "ID",
       selector: (row: any) => row.id,
       sortable: true,
+      width: "15%",
     },
     {
       name: "Usuario",
@@ -113,7 +114,7 @@ const Messages: React.FC = () => {
             <IonButton slot="start" fill="clear" color="dark">
               <IonMenuButton />
             </IonButton>
-            <IonTitle>Recomendaciones/Sugerencias</IonTitle>
+            <IonTitle>Buzón</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
