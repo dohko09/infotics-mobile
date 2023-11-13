@@ -119,10 +119,6 @@ const Messages: React.FC = () => {
         <IonContent className="ion-padding">
           <div className="container mt-5 mb-5">
             <div className="row">
-              <div className="col-12 text-center">
-                <h2 className="mb-4">Buzon de mensajes/sugerencias</h2>
-              </div>
-
               <div className="col-12">
                 <div className="mb-2">
                   <div className="input-group">
