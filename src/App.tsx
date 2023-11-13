@@ -1,7 +1,6 @@
 import {
   IonApp,
   IonAvatar,
-  IonButton,
   IonChip,
   IonContent,
   IonHeader,
@@ -10,7 +9,6 @@ import {
   IonLabel,
   IonList,
   IonMenu,
-  IonMenuButton,
   IonMenuToggle,
   IonRouterOutlet,
   IonTitle,
@@ -37,70 +35,145 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
-import { Redirect, Route } from "react-router";
+import { Redirect, Route } from "react-router-dom";
 import AllNews from "./pages/AllNews";
-import ViewNews from "./pages/ViewNews";
 import Login from "./pages/Login";
-import UsersRegistered from "./pages/EmailsRegistered";
+import EmailsRegistered from "./pages/EmailsRegistered";
 import {
   newspaperOutline,
   logInOutline,
   peopleOutline,
   logOutOutline,
+  personOutline,
+  mailOutline,
+  chatbubbleEllipsesOutline,
+  barChartOutline,
 } from "ionicons/icons";
+import PrivateRoute from "./functions/PrivateRoute";
+import React, { useState } from "react";
+import Footer from "./pages/Footer";
+import Profile from "./pages/Profile";
+import UsersRegistered from "./pages/UsersRegistered";
+import Messages from "./pages/Messages";
+import Dashboard from "./pages/Dashboard";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonMenu contentId="main-content">
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>InfoTICS</IonTitle>
-            <IonChip disabled slot="start">
-              <IonAvatar>
-                <img
-                  alt="Silhouette of a person's head"
-                  src="https://ionicframework.com/docs/img/demos/avatar.svg"
-                />
-              </IonAvatar>
-              <IonLabel>Wilson Herrera</IonLabel>
-            </IonChip>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="ion-padding">
-          <IonList>
-            <IonMenuToggle>
-              <IonItem routerLink="/all-news" lines="full">
-                <IonIcon color="medium" icon={newspaperOutline} slot="start" />
-                <IonLabel>Todas las noticias</IonLabel>
-              </IonItem>
-              <IonItem routerLink="/emails-registered" lines="full">
-                <IonIcon color="medium" icon={peopleOutline} slot="start" />
-                <IonLabel>Usuarios Registrados</IonLabel>
-              </IonItem>
-              <IonItem routerLink="/login" lines="full">
-                <IonIcon color="medium" icon={logInOutline} slot="start" />
-                <IonLabel>Iniciar Sesión</IonLabel>
-              </IonItem>
-              <IonItem lines="none">
-                <IonIcon color="medium" icon={logOutOutline} slot="start" />
-                <IonLabel>Cerrar Sesión</IonLabel>
-              </IonItem>
-            </IonMenuToggle>
-          </IonList>
-        </IonContent>
-      </IonMenu>
-      <IonRouterOutlet id="main-content">
-        <Route path="/login" component={Login} exact />
-        <Route path="/emails-registered" component={UsersRegistered} exact />
-        <Route path="/all-news" component={AllNews} exact />
-        <Route path="/view-news/:id" component={ViewNews} exact />
-        <Redirect to="/all-news" />
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const user: any | null = JSON.parse(localStorage.getItem("user") || "null");
+  const [redirectPath, setRedirectPath] = useState("");
+
+  console.log(user);
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonMenu contentId="main-content">
+          <IonHeader>
+            <IonToolbar>
+              <IonTitle>InfoTICS App</IonTitle>
+              {user && (
+                <IonChip disabled>
+                  <IonAvatar>
+                    <img
+                      alt="Silhouette of a person's head"
+                      src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                    />
+                  </IonAvatar>
+                  <IonLabel>{user.full_name}</IonLabel>
+                </IonChip>
+              )}
+            </IonToolbar>
+          </IonHeader>
+          <IonContent className="ion-padding">
+            <IonList>
+              <IonMenuToggle>
+                <IonItem routerLink="/all-news" lines="full">
+                  <IonIcon
+                    color="medium"
+                    icon={newspaperOutline}
+                    slot="start"
+                  />
+                  <IonLabel>Ver noticias</IonLabel>
+                </IonItem>
+                {user?.category == "Administrador" && (
+                  <IonItem routerLink="/emails-registered" lines="full">
+                    <IonIcon color="medium" icon={mailOutline} slot="start" />
+                    <IonLabel>Correos registrados</IonLabel>
+                  </IonItem>
+                )}
+                {user && (
+                  <IonItem routerLink="/profile" lines="full">
+                    <IonIcon color="medium" icon={personOutline} slot="start" />
+                    <IonLabel>Perfil</IonLabel>
+                  </IonItem>
+                )}
+                {user?.category == "Administrador" && (
+                  <IonItem routerLink="/users" lines="full">
+                    <IonIcon color="medium" icon={peopleOutline} slot="start" />
+                    <IonLabel>Usuarios registrados</IonLabel>
+                  </IonItem>
+                )}
+                {user?.category == "Administrador" && (
+                  <IonItem routerLink="/messages" lines="full">
+                    <IonIcon
+                      color="medium"
+                      icon={chatbubbleEllipsesOutline}
+                      slot="start"
+                    />
+                    <IonLabel>Recomendaciones</IonLabel>
+                  </IonItem>
+                )}
+                {user?.category == "Administrador" && (
+                  <IonItem routerLink="/dashboard" lines="full">
+                    <IonIcon
+                      color="medium"
+                      icon={barChartOutline}
+                      slot="start"
+                    />
+                    <IonLabel>Estadisticas</IonLabel>
+                  </IonItem>
+                )}
+                {!user && (
+                  <IonItem routerLink="/login" lines="full">
+                    <IonIcon color="medium" icon={logInOutline} slot="start" />
+                    <IonLabel>Iniciar Sesión</IonLabel>
+                  </IonItem>
+                )}
+
+                {user && (
+                  <IonItem
+                    routerLink="/login"
+                    lines="full"
+                    onClick={() => {
+                      localStorage.removeItem("user");
+                    }}
+                  >
+                    <IonIcon color="medium" icon={logOutOutline} slot="start" />
+                    <IonLabel>Cerrar Sesión</IonLabel>
+                  </IonItem>
+                )}
+              </IonMenuToggle>
+            </IonList>
+          </IonContent>
+          <Footer />
+        </IonMenu>
+        <IonRouterOutlet id="main-content">
+          <Route path="/login" component={Login} exact />
+          <PrivateRoute
+            path="/emails-registered"
+            component={EmailsRegistered}
+            exact
+          />
+          <PrivateRoute path="/profile" component={Profile} exact />
+          <PrivateRoute path="/users" component={UsersRegistered} exact />
+          <PrivateRoute path="/messages" component={Messages} exact />
+          <PrivateRoute path="/dashboard" component={Dashboard} exact />
+          <Route path="/all-news" component={AllNews} exact />
+          <Redirect to="/all-news" />
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;

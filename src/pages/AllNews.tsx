@@ -19,25 +19,32 @@ import {
 } from "@ionic/react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
 import { formatearFecha } from "../functions/methods";
+
 const AllNews: React.FC = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [imgBase64, setImgBase64] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showModalDetail, setShowModalDetail] = useState(false);
   useEffect(() => {
     getNews();
   }, []);
   const API = "https://infotic.up.railway.app";
+  const user: any | null = JSON.parse(localStorage.getItem("user") || "null");
   const getNews = async () => {
+    let response;
     try {
-      const response = await axios.get(`${API}/news_all`);
+      user?.category === "Administrador" || user?.category === "Miembro"
+        ? (response = await axios.get(`${API}/news_all`))
+        : (response = await axios.get(`${API}/news_public`));
       setNews(response.data);
-    } catch (error) {
-      console.error("Error fetching news:", error);
-    } finally {
       setLoading(false);
+    } catch (error) {
+      console.error("Error al obtener las noticias:", error);
     }
   };
   const generateQR = async (url: string) => {
@@ -49,9 +56,23 @@ const AllNews: React.FC = () => {
       console.error("Error generando código QR:", error);
     }
   };
+  const mostrarDetalle = async (url: string) => {
+    try {
+      console.log(url);
+      const response: any = await axios.get(url);
+      console.log(response.data[0].image_src);
+      setTitle(response.data[0].title);
+      setDescription(response.data[0].content);
+      setImage(response.data[0].image_src);
+      setShowModalDetail(true);
+    } catch (error) {}
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+  const handleCloseModalDetail = () => {
+    setShowModalDetail(false);
   };
   return (
     <>
@@ -100,13 +121,15 @@ const AllNews: React.FC = () => {
                           margin: "0px 0px 20px 0px",
                         }}
                       >
-                        <Link
-                          to={`/view-news/${item.id}`}
+                        <span
                           className="btn btn-outline-warning"
                           style={{ margin: "5px" }}
+                          onClick={() => {
+                            mostrarDetalle(`${API}/news/${item.id}`);
+                          }}
                         >
                           <i className="fas fa-eye" /> Ver mas
-                        </Link>
+                        </span>
                         <span
                           className="btn btn-outline-primary"
                           style={{ margin: "5px" }}
@@ -138,6 +161,29 @@ const AllNews: React.FC = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showModalDetail} onHide={handleCloseModalDetail} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Detalle de noticia</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="form-group text-center">
+            <img
+              src={`${image}`}
+              alt="Imagen"
+              style={{ borderRadius: "5px" }}
+            />
+          </div>
+          <h5 style={{ textAlign: "justify", margin: "20px 0px" }}>{title}</h5>
+          <IonText style={{ textAlign: "justify" }}>
+            <div dangerouslySetInnerHTML={{ __html: description }} />
+          </IonText>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModalDetail}>
             Cerrar
           </Button>
         </Modal.Footer>

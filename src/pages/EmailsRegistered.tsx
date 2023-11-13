@@ -16,7 +16,7 @@ import Button from "react-bootstrap/Button";
 import DataTable from "react-data-table-component";
 import { formatearFecha } from "../functions/methods";
 
-const UsersRegistered: React.FC = () => {
+const EmailsRegistered: React.FC = () => {
   const [filtroTexto, setFiltroTexto] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +30,7 @@ const UsersRegistered: React.FC = () => {
   const [emailIdInEdit, setEmailIdInEdit] = useState(null);
   const [isOpenToast, setIsOpenToast] = useState(false);
   const [isOpen, setIsOpen] = useState(false); // Alerta de eliminación de correo
-  const [message, setMessage] = useState("");
+  const [messageCustom, setMessageCustom] = useState("");
   const [register, setRegister] = useState([]);
   const API = "https://infotic.up.railway.app";
   useEffect(() => {
@@ -134,13 +134,13 @@ const UsersRegistered: React.FC = () => {
         mail: newEmail,
         role: newRol,
       });
-      setMessage(response.data.message);
+      setMessageCustom(response.data.message);
       handleCloseModal();
       setNewEmail("");
       fetchData();
     } catch (error: any) {
       console.error(error);
-      setMessage(error.message);
+      setMessageCustom(error.message);
     }
     setIsOpenToast(true);
   };
@@ -151,25 +151,24 @@ const UsersRegistered: React.FC = () => {
         mail: editingEmail,
         role: editingRol,
       });
-      setMessage(response.data.message);
+      setMessageCustom(response.data.message);
       handleCloseModal();
       fetchData();
     } catch (error: any) {
       console.error(error);
-      setMessage(error.message);
+      setMessageCustom(error.message);
     }
     setIsOpenToast(true);
   };
 
   const handleDeleteEmail = async (email: any) => {
     try {
-      setIsOpen(true);
       const response = await axios.delete(`${API}/emails/${email.id}`);
-      setMessage(response.data.message);
+      setMessageCustom(response.data.message);
       fetchData();
     } catch (error: any) {
       console.error(error);
-      setMessage(error.message);
+      setMessageCustom(error.message);
     }
     setIsOpenToast(true);
   };
@@ -286,7 +285,7 @@ const UsersRegistered: React.FC = () => {
       </Modal>
       <IonToast
         isOpen={isOpenToast}
-        message={message}
+        message={messageCustom}
         onDidDismiss={() => setIsOpenToast(false)}
         duration={5000}
       ></IonToast>
@@ -307,7 +306,7 @@ const UsersRegistered: React.FC = () => {
             role: "cancel",
             handler: () => {
               setIsOpenToast(true);
-              setMessage("Eliminación cancelada por el usuario");
+              setMessageCustom("Eliminación cancelada por el usuario");
             },
           },
         ]}
@@ -316,4 +315,4 @@ const UsersRegistered: React.FC = () => {
     </>
   );
 };
-export default UsersRegistered;
+export default EmailsRegistered;
