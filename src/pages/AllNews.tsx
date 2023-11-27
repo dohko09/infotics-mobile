@@ -74,6 +74,17 @@ const AllNews: React.FC = () => {
   const handleCloseModalDetail = () => {
     setShowModalDetail(false);
   };
+
+  const registerVisualization = async (news_id: any) => {
+    try {
+      const response = await axios.post(`${API}/log`, {
+        user: user ? user.id : 6,
+        news: news_id,
+      });
+    } catch (error) {
+      console.error("Error al registrar la visualización:", error);
+    }
+  };
   return (
     <>
       <IonPage>
@@ -126,6 +137,7 @@ const AllNews: React.FC = () => {
                           style={{ margin: "5px" }}
                           onClick={() => {
                             mostrarDetalle(`${API}/news/${item.id}`);
+                            registerVisualization(item.id);
                           }}
                         >
                           <i className="fas fa-eye" /> Ver mas

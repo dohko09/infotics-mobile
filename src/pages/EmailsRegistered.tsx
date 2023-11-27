@@ -218,7 +218,7 @@ const EmailsRegistered: React.FC = () => {
                     striped
                     pagination
                     paginationComponentOptions={paginacionOpciones}
-                    paginationPerPage={10}
+                    paginationPerPage={5}
                     paginationRowsPerPageOptions={[5, 10, 15, 20]}
                     noDataComponent={
                       <span>No se encontró ningún elemento</span>

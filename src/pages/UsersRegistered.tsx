@@ -99,7 +99,7 @@ const UsersRegistered: React.FC = () => {
   ];
   const mostrarAlertaPersonalizada = (mensaje: string) => {
     setMessageCustom(mensaje);
-    setIsOpen(true);
+    setIsOpenToast(true);
   };
 
   const handleDeleteEmail = async (user: any) => {
@@ -155,7 +155,6 @@ const UsersRegistered: React.FC = () => {
       }
       handleCloseModal();
       mostrarAlertaPersonalizada(response.data.message);
-      fetchData();
     } catch (error: any) {
       console.error(error);
       mostrarAlertaPersonalizada(error.message);

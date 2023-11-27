@@ -81,51 +81,32 @@ const Dashboard: React.FC = () => {
       <IonContent className="ion-padding">
         <div className="container p-4">
           <div className="row justify-content-center">
-            <div
-              className="col-12 col-md-3 col-sm-12 m-4 border rounded"
-              style={{
-                padding: "20px",
-                borderWidth: "1px",
-                borderStyle: "solid",
-              }}
-            >
-              <h4 className="text-center">Total usuarios</h4>
-              <Card className="mb-3 text-center">
+            <div className="col-12 col-md-3 col-sm-12 m-1  rounded">
+              <Card className="text-center">
                 <Card.Body>
+                  <Card.Text className="text-center">Total usuarios</Card.Text>
                   <Card.Text style={{ fontSize: "2rem" }}>
                     {totalUsers}
                   </Card.Text>
                 </Card.Body>
               </Card>
             </div>
-            <div
-              className="col-12 col-md-3 col-sm-12 m-4 border rounded"
-              style={{
-                padding: "20px",
-                borderWidth: "1px",
-                borderStyle: "solid",
-              }}
-            >
-              <h4 className="text-center">Accesos del día</h4>
-              <Card className="mb-3 text-center">
+            <div className="col-12 col-md-3 col-sm-12 m-1  rounded">
+              <Card className="text-center">
                 <Card.Body>
+                  <Card.Text className="text-center">Accesos del día</Card.Text>
                   <Card.Text style={{ fontSize: "2rem" }}>
                     {logsToday}
                   </Card.Text>
                 </Card.Body>
               </Card>
             </div>
-            <div
-              className="col-12 col-md-3 col-sm-12 m-4 border rounded"
-              style={{
-                padding: "20px",
-                borderWidth: "1px",
-                borderStyle: "solid",
-              }}
-            >
-              <h4 className="text-center">Noticias publicadas</h4>
-              <Card className="mb-3 text-center">
+            <div className="col-12 col-md-3 col-sm-12 m-1 rounded">
+              <Card className="text-center">
                 <Card.Body>
+                  <Card.Text className="text-center">
+                    Noticias publicadas
+                  </Card.Text>
                   <Card.Text style={{ fontSize: "2rem" }}>
                     {totalNews}
                   </Card.Text>
@@ -133,11 +114,12 @@ const Dashboard: React.FC = () => {
               </Card>
             </div>
             <div
-              className="col-12 col-md-6 col-sm-12 m-4 border rounded"
+              className="col-12 col-md-6 col-sm-12 m-2 rounded"
               style={{
-                padding: "20px",
+                padding: "5px",
                 borderWidth: "1px",
                 borderStyle: "solid",
+                borderColor: "#ccc",
               }}
             >
               <h4 className="text-center">Ingresos últimos siete días</h4>

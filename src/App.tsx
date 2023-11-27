@@ -56,13 +56,16 @@ import Profile from "./pages/Profile";
 import UsersRegistered from "./pages/UsersRegistered";
 import Messages from "./pages/Messages";
 import Dashboard from "./pages/Dashboard";
-
+import { Plugins } from "@capacitor/core";
 setupIonicReact();
 
 const App: React.FC = () => {
+  const { App } = Plugins;
   const user: any | null = JSON.parse(localStorage.getItem("user") || "null");
   const [redirectPath, setRedirectPath] = useState("");
-
+  const cerrarAplicacion = () => {
+    App.exitApp();
+  };
   console.log(user);
   return (
     <IonApp>
@@ -146,6 +149,7 @@ const App: React.FC = () => {
                     lines="full"
                     onClick={() => {
                       localStorage.removeItem("user");
+                      cerrarAplicacion();
                     }}
                   >
                     <IonIcon color="medium" icon={logOutOutline} slot="start" />
