@@ -173,9 +173,6 @@ const EmailsRegistered: React.FC = () => {
     setIsOpenToast(true);
   };
 
-  if (loading) {
-    return <p className="text-center">Cargando datos de los correos...</p>;
-  }
   return (
     <>
       <IonPage>
@@ -188,46 +185,50 @@ const EmailsRegistered: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <div className="container mt-5 mb-5">
-            <div className="row">
-              <div className="col-12">
-                <span
-                  className="btn btn-primary mb-2 float-right col-12"
-                  onClick={() => handleShowModal(null)}
-                >
-                  <i className="fa-solid fa-plus"></i> Agregar nuevo
-                </span>
-                <div className="mb-2">
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <i className="fas fa-search"></i>
-                    </span>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Filtrar por correo"
-                      value={filtroTexto}
-                      onChange={(e) => setFiltroTexto(e.target.value)}
+          {loading ? (
+            <p className="text-center">Cargando datos de los correos...</p>
+          ) : (
+            <div className="container mt-5 mb-5">
+              <div className="row">
+                <div className="col-12">
+                  <span
+                    className="btn btn-primary mb-2 float-right col-12"
+                    onClick={() => handleShowModal(null)}
+                  >
+                    <i className="fa-solid fa-plus"></i> Agregar nuevo
+                  </span>
+                  <div className="mb-2">
+                    <div className="input-group">
+                      <span className="input-group-text">
+                        <i className="fas fa-search"></i>
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Filtrar por correo"
+                        value={filtroTexto}
+                        onChange={(e) => setFiltroTexto(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="table-responsive table ">
+                    <DataTable
+                      columns={columns}
+                      data={filteredData}
+                      striped
+                      pagination
+                      paginationComponentOptions={paginacionOpciones}
+                      paginationPerPage={5}
+                      paginationRowsPerPageOptions={[5, 10, 15, 20]}
+                      noDataComponent={
+                        <span>No se encontró ningún elemento</span>
+                      }
                     />
                   </div>
                 </div>
-                <div className="table-responsive table ">
-                  <DataTable
-                    columns={columns}
-                    data={filteredData}
-                    striped
-                    pagination
-                    paginationComponentOptions={paginacionOpciones}
-                    paginationPerPage={5}
-                    paginationRowsPerPageOptions={[5, 10, 15, 20]}
-                    noDataComponent={
-                      <span>No se encontró ningún elemento</span>
-                    }
-                  />
-                </div>
               </div>
             </div>
-          </div>
+          )}
         </IonContent>
       </IonPage>
       <Modal show={showModal} onHide={handleCloseModal} centered>

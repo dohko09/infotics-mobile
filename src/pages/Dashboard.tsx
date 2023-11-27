@@ -43,10 +43,6 @@ const Dashboard: React.FC = () => {
     fetchData();
   }, []);
 
-  if (loading) {
-    return <p className="text-center">Cargando datos del gráfico...</p>;
-  }
-
   if (error) {
     return <p className="text-center text-danger">{error}</p>;
   }
@@ -79,54 +75,62 @@ const Dashboard: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <div className="container p-4">
-          <div className="row justify-content-center">
-            <div className="col-12 col-md-3 col-sm-12 m-1  rounded">
-              <Card className="text-center">
-                <Card.Body>
-                  <Card.Text className="text-center">Total usuarios</Card.Text>
-                  <Card.Text style={{ fontSize: "2rem" }}>
-                    {totalUsers}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col-12 col-md-3 col-sm-12 m-1  rounded">
-              <Card className="text-center">
-                <Card.Body>
-                  <Card.Text className="text-center">Accesos del día</Card.Text>
-                  <Card.Text style={{ fontSize: "2rem" }}>
-                    {logsToday}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col-12 col-md-3 col-sm-12 m-1 rounded">
-              <Card className="text-center">
-                <Card.Body>
-                  <Card.Text className="text-center">
-                    Noticias publicadas
-                  </Card.Text>
-                  <Card.Text style={{ fontSize: "2rem" }}>
-                    {totalNews}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </div>
-            <div
-              className="col-12 col-md-6 col-sm-12 m-2 rounded"
-              style={{
-                padding: "5px",
-                borderWidth: "1px",
-                borderStyle: "solid",
-                borderColor: "#ccc",
-              }}
-            >
-              <h4 className="text-center">Ingresos últimos siete días</h4>
-              <ChartLine data={data} />
+        {loading ? (
+          <p className="text-center">Cargando datos del gráfico...</p>
+        ) : (
+          <div className="container p-4">
+            <div className="row justify-content-center">
+              <div className="col-12 col-md-3 col-sm-12 m-1  rounded">
+                <Card className="text-center">
+                  <Card.Body>
+                    <Card.Text className="text-center">
+                      Total usuarios
+                    </Card.Text>
+                    <Card.Text style={{ fontSize: "2rem" }}>
+                      {totalUsers}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col-12 col-md-3 col-sm-12 m-1  rounded">
+                <Card className="text-center">
+                  <Card.Body>
+                    <Card.Text className="text-center">
+                      Accesos del día
+                    </Card.Text>
+                    <Card.Text style={{ fontSize: "2rem" }}>
+                      {logsToday}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col-12 col-md-3 col-sm-12 m-1 rounded">
+                <Card className="text-center">
+                  <Card.Body>
+                    <Card.Text className="text-center">
+                      Noticias publicadas
+                    </Card.Text>
+                    <Card.Text style={{ fontSize: "2rem" }}>
+                      {totalNews}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div
+                className="col-12 col-md-6 col-sm-12 m-2 rounded"
+                style={{
+                  padding: "5px",
+                  borderWidth: "1px",
+                  borderStyle: "solid",
+                  borderColor: "#ccc",
+                }}
+              >
+                <h4 className="text-center">Ingresos últimos siete días</h4>
+                <ChartLine data={data} />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </IonContent>
     </IonPage>
   );

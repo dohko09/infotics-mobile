@@ -134,10 +134,6 @@ const UsersRegistered: React.FC = () => {
     item.full_name.toLowerCase().includes(filtroTexto.toLowerCase())
   );
 
-  if (loading) {
-    return <p className="text-center">Cargando datos de los usuarios...</p>;
-  }
-
   const handleUpdateUser = async () => {
     try {
       let response: any = "";
@@ -173,40 +169,44 @@ const UsersRegistered: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <div className="container mt-5 mb-5">
-            <div className="row">
-              <div className="col-12">
-                <div className="mb-3">
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <i className="fas fa-search"></i>
-                    </span>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Filtrar por nombre"
-                      value={filtroTexto}
-                      onChange={(e) => setFiltroTexto(e.target.value)}
+          {loading ? (
+            <p className="text-center">Cargando datos de los usuarios...</p>
+          ) : (
+            <div className="container mt-5 mb-5">
+              <div className="row">
+                <div className="col-12">
+                  <div className="mb-3">
+                    <div className="input-group">
+                      <span className="input-group-text">
+                        <i className="fas fa-search"></i>
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Filtrar por nombre"
+                        value={filtroTexto}
+                        onChange={(e) => setFiltroTexto(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="table-responsive">
+                    <DataTable
+                      columns={columns}
+                      data={filteredData}
+                      striped
+                      pagination
+                      paginationComponentOptions={paginacionOpciones}
+                      paginationPerPage={5}
+                      paginationRowsPerPageOptions={[5, 10, 15, 20]}
+                      noDataComponent={
+                        <span>No se encontró ningún elemento</span>
+                      }
                     />
                   </div>
                 </div>
-                <div className="table-responsive">
-                  <DataTable
-                    columns={columns}
-                    data={filteredData}
-                    striped
-                    pagination
-                    paginationComponentOptions={paginacionOpciones}
-                    paginationPerPage={5}
-                    paginationRowsPerPageOptions={[5, 10, 15, 20]}
-                    noDataComponent={
-                      <span>No se encontró ningún elemento</span>
-                    }
-                  />
-                </div>
               </div>
             </div>
-          </div>
+          )}
         </IonContent>
       </IonPage>
 
