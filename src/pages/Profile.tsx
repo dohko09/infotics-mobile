@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 
 const Profile: React.FC = () => {
-  const API = "https://infotic.up.railway.app";
+  const API = "https://infotic.up.railway.app/api/v1/users";
   const [data, setData] = useState({
     id: 0,
     full_name: "",
@@ -51,11 +51,11 @@ const Profile: React.FC = () => {
       const pin = secret;
 
       if (pin.trim().length === 0) {
-        response = await axios.put(`${API}/profile_sc/${id}`, {
+        response = await axios.put(`${API}/${id}/edit-profile-no-password`, {
           full_name,
         });
       } else {
-        response = await axios.put(`${API}/profile/${id}`, {
+        response = await axios.put(`${API}/${id}/edit-profile`, {
           full_name,
           pin,
         });
@@ -150,7 +150,7 @@ const Profile: React.FC = () => {
                   </div>
                   <div className="row">
                     <div className="col-12 text-center">
-                      <button className="btn btn-success col-11" type="submit">
+                      <button className="btn btn-success col-12" type="submit">
                         <i className="fas fa-save"></i> Guardar cambios
                       </button>
                     </div>

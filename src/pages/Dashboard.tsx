@@ -19,14 +19,14 @@ const Dashboard: React.FC = () => {
   const [logsLast, setLogsLast] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const API = "https://infotic.up.railway.app";
+  const API = "https://infotic.up.railway.app/api/v1/metrics";
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const totalUsersResponse = await axios.get(`${API}/total_users`);
-        const logsTodayResponse = await axios.get(`${API}/logs_today`);
-        const logsLastResponse = await axios.get(`${API}/logs_last`);
-        const totalNewsResponse = await axios.get(`${API}/total_news`);
+        const totalUsersResponse = await axios.get(`${API}/total-users`);
+        const logsTodayResponse = await axios.get(`${API}/total-income-today`);
+        const logsLastResponse = await axios.get(`${API}/income-logs-last-7-days`);
+        const totalNewsResponse = await axios.get(`${API}/total-published-news`);
         const totalUsersData = totalUsersResponse.data;
         const logsTodayData = logsTodayResponse.data;
         const totalNewsData = totalNewsResponse.data;
@@ -116,17 +116,13 @@ const Dashboard: React.FC = () => {
                   </Card.Body>
                 </Card>
               </div>
-              <div
-                className="col-12 col-md-6 col-sm-12 m-2 rounded"
-                style={{
-                  padding: "5px",
-                  borderWidth: "1px",
-                  borderStyle: "solid",
-                  borderColor: "#ccc",
-                }}
-              >
-                <h4 className="text-center">Ingresos últimos siete días</h4>
-                <ChartLine data={data} />
+              <div className="col-12 col-md-6 col-sm-12 m-1 rounded">
+                <Card className="text-center">
+                  <Card.Body>
+                    <p className="text-center">Ingresos últimos siete días</p>
+                    <ChartLine data={data} />
+                  </Card.Body>
+                </Card>
               </div>
             </div>
           </div>

@@ -18,7 +18,7 @@ const Login: React.FC = () => {
   const [pin, setPin] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [messageCustom, setMessageCustom] = useState("");
-  const API = "https://infotic.up.railway.app";
+  const API = "https://infotic.up.railway.app/api/v1/auth";
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
     if (name === "email") {
@@ -36,7 +36,7 @@ const Login: React.FC = () => {
     event.preventDefault();
     if (email != null && pin != null) {
       try {
-        const response = await axios.post(`${API}/login_sc`, {
+        const response = await axios.post(`${API}/login-no-password`, {
           email,
           pin,
         });
@@ -45,7 +45,6 @@ const Login: React.FC = () => {
         // Restablecer el formulario después de enviar
         setEmail("");
         setPin("");
-        console.log(response.data);
         localStorage.setItem("user", JSON.stringify(user));
         // Redireccionar a la página de inicio
         window.location.href = "/all-news";

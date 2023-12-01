@@ -33,14 +33,14 @@ const AllNews: React.FC = () => {
   useEffect(() => {
     getNews();
   }, []);
-  const API = "https://infotic.up.railway.app";
+  const API = "https://infotic.up.railway.app/api/v1";
   const user: any | null = JSON.parse(localStorage.getItem("user") || "null");
   const getNews = async () => {
     let response;
     try {
       user?.category === "Administrador" || user?.category === "Miembro"
-        ? (response = await axios.get(`${API}/news_all`))
-        : (response = await axios.get(`${API}/news_public`));
+        ? (response = await axios.get(`${API}/news/all`))
+        : (response = await axios.get(`${API}/news/public`));
       setNews(response.data);
       setLoading(false);
     } catch (error) {
@@ -49,7 +49,7 @@ const AllNews: React.FC = () => {
   };
   const generateQR = async (url: string) => {
     try {
-      const response = await axios.post(`${API}/qr`, { url });
+      const response = await axios.post(`${API}/others/qr`, { url });
       setImgBase64(response.data.qrCode);
       setShowModal(true);
     } catch (error) {
@@ -58,9 +58,7 @@ const AllNews: React.FC = () => {
   };
   const mostrarDetalle = async (url: string) => {
     try {
-      console.log(url);
       const response: any = await axios.get(url);
-      console.log(response.data[0].image_src);
       setTitle(response.data[0].title);
       setDescription(response.data[0].content);
       setImage(response.data[0].image_src);
@@ -77,7 +75,7 @@ const AllNews: React.FC = () => {
 
   const registerVisualization = async (news_id: any) => {
     try {
-      const response = await axios.post(`${API}/log`, {
+      const response = await axios.post(`${API}/users/view`, {
         user: user ? user.id : 6,
         news: news_id,
       });
@@ -122,7 +120,7 @@ const AllNews: React.FC = () => {
                           </p>
                           <p>
                             <b>Tipo:</b>{" "}
-                            {item.isPrivate ? "Privado" : "Publico"}
+                            {item.isPrivate ? "Privado" : "Público"}
                           </p>
                         </IonText>
                       </IonCardContent>
@@ -136,11 +134,11 @@ const AllNews: React.FC = () => {
                           className="btn btn-outline-warning"
                           style={{ margin: "5px" }}
                           onClick={() => {
-                            mostrarDetalle(`${API}/news/${item.id}`);
+                            mostrarDetalle(`${API}/news/get/${item.id}`);
                             registerVisualization(item.id);
                           }}
                         >
-                          <i className="fas fa-eye" /> Ver mas
+                          <i className="fas fa-eye" /> Ver más
                         </span>
                         <span
                           className="btn btn-outline-primary"

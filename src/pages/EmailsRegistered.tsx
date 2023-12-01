@@ -32,14 +32,14 @@ const EmailsRegistered: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false); // Alerta de eliminación de correo
   const [messageCustom, setMessageCustom] = useState("");
   const [register, setRegister] = useState([]);
-  const API = "https://infotic.up.railway.app";
+  const API = "https://infotic.up.railway.app/api/v1/emails";
   useEffect(() => {
     fetchData();
   }, []); // Empty dependency array to run this effect only once
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${API}/emails`);
+      const response = await axios.get(`${API}/all`);
       setData(response.data);
       setLoading(false);
     } catch (error) {
@@ -130,7 +130,7 @@ const EmailsRegistered: React.FC = () => {
 
   const handleAddEmail = async () => {
     try {
-      const response = await axios.post(`${API}/emails`, {
+      const response = await axios.post(`${API}/create`, {
         mail: newEmail,
         role: newRol,
       });
@@ -147,7 +147,7 @@ const EmailsRegistered: React.FC = () => {
 
   const handleUpdateEmail = async () => {
     try {
-      const response = await axios.put(`${API}/emails/${emailIdInEdit}`, {
+      const response = await axios.put(`${API}/update/${emailIdInEdit}`, {
         mail: editingEmail,
         role: editingRol,
       });
@@ -163,7 +163,7 @@ const EmailsRegistered: React.FC = () => {
 
   const handleDeleteEmail = async (email: any) => {
     try {
-      const response = await axios.delete(`${API}/emails/${email.id}`);
+      const response = await axios.delete(`${API}/delete/${email.id}`);
       setMessageCustom(response.data.message);
       fetchData();
     } catch (error: any) {

@@ -21,7 +21,7 @@ const Messages: React.FC = () => {
   const [user, setUser] = useState("");
   const [message, setMessage] = useState("");
   const [created_at, setCreated_at] = useState("");
-  const API = "https://infotic.up.railway.app";
+  const API = "https://infotic.up.railway.app/api/v1/metrics";
   useEffect(() => {
     fetchData();
   }, []); // Empty dependency array to run this effect only once

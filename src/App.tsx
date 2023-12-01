@@ -57,16 +57,15 @@ import UsersRegistered from "./pages/UsersRegistered";
 import Messages from "./pages/Messages";
 import Dashboard from "./pages/Dashboard";
 import { Plugins } from "@capacitor/core";
+import Contact from "./pages/Contact";
 setupIonicReact();
 
 const App: React.FC = () => {
   const { App } = Plugins;
   const user: any | null = JSON.parse(localStorage.getItem("user") || "null");
-  const [redirectPath, setRedirectPath] = useState("");
   const cerrarAplicacion = () => {
     App.exitApp();
   };
-  console.log(user);
   return (
     <IonApp>
       <IonReactRouter>
@@ -133,13 +132,24 @@ const App: React.FC = () => {
                       icon={barChartOutline}
                       slot="start"
                     />
-                    <IonLabel>Estadisticas</IonLabel>
+                    <IonLabel>Estadísticas</IonLabel>
                   </IonItem>
                 )}
                 {!user && (
                   <IonItem routerLink="/login" lines="full">
                     <IonIcon color="medium" icon={logInOutline} slot="start" />
                     <IonLabel>Iniciar Sesión</IonLabel>
+                  </IonItem>
+                )}
+
+                {user?.category == "Miembro" && (
+                  <IonItem routerLink="/contact-us" lines="full">
+                    <IonIcon
+                      color="medium"
+                      icon={chatbubbleEllipsesOutline}
+                      slot="start"
+                    />
+                    <IonLabel>Contáctanos</IonLabel>
                   </IonItem>
                 )}
 
@@ -172,6 +182,7 @@ const App: React.FC = () => {
           <PrivateRoute path="/users" component={UsersRegistered} exact />
           <PrivateRoute path="/messages" component={Messages} exact />
           <PrivateRoute path="/dashboard" component={Dashboard} exact />
+          <PrivateRoute path="/contact-us" component={Contact} exact />
           <Route path="/all-news" component={AllNews} exact />
           <Redirect to="/all-news" />
         </IonRouterOutlet>

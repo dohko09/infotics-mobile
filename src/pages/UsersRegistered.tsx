@@ -23,7 +23,7 @@ const UsersRegistered: React.FC = () => {
   const [fullName, setFullName] = useState("");
   const [rol, setRol] = useState("");
   const [pin, setPin] = useState("");
-  const API = "https://infotic.up.railway.app";
+  const API = "https://infotic.up.railway.app/api/v1/users";
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenToast, setIsOpenToast] = useState(false);
   const [messageCustom, setMessageCustom] = useState("");
@@ -33,7 +33,7 @@ const UsersRegistered: React.FC = () => {
   }, []); // Empty dependency array to run this effect only once
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${API}/users`);
+      const response = await axios.get(`${API}/all`);
       setData(response.data);
       setLoading(false);
     } catch (error) {
@@ -104,7 +104,7 @@ const UsersRegistered: React.FC = () => {
 
   const handleDeleteEmail = async (user: any) => {
     try {
-      const response = await axios.delete(`${API}/user/${user.id}`);
+      const response = await axios.delete(`${API}/delete/${user.id}`);
       mostrarAlertaPersonalizada(response.data.message);
 
       fetchData();
@@ -138,12 +138,12 @@ const UsersRegistered: React.FC = () => {
     try {
       let response: any = "";
       if (pin.trim().length === 0) {
-        response = await axios.put(`${API}/user_sc/${id}`, {
+        response = await axios.put(`${API}/update/${id}/update-no-password`, {
           full_name: fullName,
           category: rol,
         });
       } else {
-        response = await axios.put(`${API}/user/${id}`, {
+        response = await axios.put(`${API}/update/${id}`, {
           full_name: fullName,
           category: rol,
           pin: pin,
