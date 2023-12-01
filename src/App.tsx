@@ -50,7 +50,7 @@ import {
   barChartOutline,
 } from "ionicons/icons";
 import PrivateRoute from "./functions/PrivateRoute";
-import React, { useState } from "react";
+import React from "react";
 import Footer from "./pages/Footer";
 import Profile from "./pages/Profile";
 import UsersRegistered from "./pages/UsersRegistered";
@@ -58,6 +58,7 @@ import Messages from "./pages/Messages";
 import Dashboard from "./pages/Dashboard";
 import { Plugins } from "@capacitor/core";
 import Contact from "./pages/Contact";
+import RecoverPassword from "./pages/RecoverPassword";
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -173,6 +174,7 @@ const App: React.FC = () => {
         </IonMenu>
         <IonRouterOutlet id="main-content">
           <Route path="/login" component={Login} exact />
+          <Route path="/recover-password" component={RecoverPassword} exact />
           <PrivateRoute
             path="/emails-registered"
             component={EmailsRegistered}
