@@ -20,6 +20,10 @@ import {
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { formatearFecha } from "../functions/methods";
+import * as timeago from "timeago.js";
+import es from "timeago.js/lib/lang/es";
+import { Plugins } from "@capacitor/core";
+const { Share } = Plugins;
 
 const AllNews: React.FC = () => {
   const [news, setNews] = useState([]);
@@ -30,6 +34,8 @@ const AllNews: React.FC = () => {
   const [image, setImage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showModalDetail, setShowModalDetail] = useState(false);
+
+  timeago.register("es", es);
   useEffect(() => {
     getNews();
   }, []);
@@ -47,6 +53,19 @@ const AllNews: React.FC = () => {
       console.error("Error al obtener las noticias:", error);
     }
   };
+  const shareNews = async (row: any) => {
+    try {
+      await Share.share({
+        title: "Compartir noticia",
+        text: `📢 Ve esta publicación titulada "${row.title}" en:\n\n`,
+        url: `https://infotics.vercel.app/#/${row.id}`,
+        dialogTitle: "Compartir en:",
+      });
+    } catch (error) {
+      console.error("Error al compartir:", error);
+    }
+  };
+
   const generateQR = async (url: string) => {
     try {
       const response = await axios.post(`${API}/others/qr`, { url });
@@ -116,11 +135,32 @@ const AllNews: React.FC = () => {
                       <IonCardContent>
                         <IonText style={{ textAlign: "center" }}>
                           <p>
-                            <b>Creado: </b> {formatearFecha(item.created_at)}
+                            <b>Creado: </b> {formatearFecha(item.created_at)} |{" "}
+                            {timeago.format(item.created_at, "es")}
+                          </p>
+
+                          <p>
+                            <b>Tipo: </b>
+                            {item.isPrivate ? "Privado" : "Público"}
                           </p>
                           <p>
-                            <b>Tipo:</b>{" "}
-                            {item.isPrivate ? "Privado" : "Público"}
+                            {item.isAnchored ? (
+                              <>
+                                <i
+                                  className="fas fa-thumbtack"
+                                  id="isAnchored"
+                                  style={{ marginRight: "5px" }}
+                                />
+                                <label
+                                  className="form-check-label"
+                                  htmlFor="isAnchored"
+                                >
+                                  Anclada
+                                </label>
+                              </>
+                            ) : (
+                              ""
+                            )}
                           </p>
                         </IonText>
                       </IonCardContent>
@@ -131,17 +171,17 @@ const AllNews: React.FC = () => {
                         }}
                       >
                         <span
-                          className="btn btn-outline-warning"
+                          className="btn btn-outline-warning col-3"
                           style={{ margin: "5px" }}
                           onClick={() => {
                             mostrarDetalle(`${API}/news/get/${item.id}`);
                             registerVisualization(item.id);
                           }}
                         >
-                          <i className="fas fa-eye" /> Ver más
+                          <i className="fas fa-info-circle" />
                         </span>
                         <span
-                          className="btn btn-outline-primary"
+                          className="btn btn-outline-primary col-3"
                           style={{ margin: "5px" }}
                           onClick={() => {
                             generateQR(
@@ -149,7 +189,16 @@ const AllNews: React.FC = () => {
                             );
                           }}
                         >
-                          <i className="fas fa-qrcode"></i> Código QR
+                          <i className="fas fa-qrcode" />
+                        </span>
+                        <span
+                          className="btn btn-outline-success col-3"
+                          style={{ margin: "5px" }}
+                          onClick={() => {
+                            shareNews(item);
+                          }}
+                        >
+                          <i className="fas fa-share-from-square" />
                         </span>
                       </div>
                     </IonCard>
@@ -160,7 +209,13 @@ const AllNews: React.FC = () => {
           </IonGrid>
         </IonContent>
       </IonPage>
-      <Modal show={showModal} onHide={handleCloseModal} size="sm" centered>
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        size="sm"
+        backdrop="static"
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Código QR - InfoTICs</Modal.Title>
         </Modal.Header>
@@ -175,7 +230,12 @@ const AllNews: React.FC = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={showModalDetail} onHide={handleCloseModalDetail} centered>
+      <Modal
+        show={showModalDetail}
+        onHide={handleCloseModalDetail}
+        backdrop="static"
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Detalle de noticia</Modal.Title>
         </Modal.Header>

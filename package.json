@@ -17,6 +17,7 @@
     "@capacitor/core": "5.5.1",
     "@capacitor/haptics": "5.0.6",
     "@capacitor/keyboard": "5.0.6",
+    "@capacitor/share": "^5.0.6",
     "@capacitor/status-bar": "5.0.6",
     "@fortawesome/fontawesome-free": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
@@ -37,7 +38,8 @@
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
     "styled-components": "^5.3.3",
-    "sweetalert2": "^11.9.0"
+    "sweetalert2": "^11.9.0",
+    "timeago.js": "^4.0.2"
   },
   "devDependencies": {
     "@capacitor/cli": "5.5.1",
