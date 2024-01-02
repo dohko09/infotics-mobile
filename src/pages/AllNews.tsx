@@ -58,7 +58,7 @@ const AllNews: React.FC = () => {
       await Share.share({
         title: "Compartir noticia",
         text: `📢 Ve esta publicación titulada "${row.title}" en:\n\n`,
-        url: `https://infotics.vercel.app/#/${row.id}`,
+        url: `https://infotics.vercel.app/#/news/${row.id}`,
         dialogTitle: "Compartir en:",
       });
     } catch (error) {
@@ -185,7 +185,7 @@ const AllNews: React.FC = () => {
                           style={{ margin: "5px" }}
                           onClick={() => {
                             generateQR(
-                              `https://infotics.vercel.app/#/${item.id}`
+                              `https://infotics.vercel.app/#/news/${item.id}`
                             );
                           }}
                         >
