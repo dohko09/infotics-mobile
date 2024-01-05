@@ -52,27 +52,33 @@ const UsersRegistered: React.FC = () => {
       name: "ID",
       selector: (row: any) => row.id,
       sortable: true,
-      width: "15%",
+      minWidth: "100px",
     },
     {
       name: "Nombres completos",
       selector: (row: any) => row.full_name,
       sortable: true,
+      minWidth: "250px",
+      wrap: true,
     },
     {
       name: "Correo electrónico",
       selector: (row: any) => row.mail,
       sortable: true,
+      minWidth: "250px",
+      wrap: true,
     },
     {
       name: "Rol",
       selector: (row: any) => row.category,
       sortable: true,
+      minWidth: "200px",
     },
     {
       name: "Estado",
       selector: (row: any) => (row.status === 1 ? "Activo" : "Inactivo"),
       sortable: true,
+      minWidth: "150px",
     },
     {
       name: "Acciones",
@@ -95,6 +101,7 @@ const UsersRegistered: React.FC = () => {
           </span>
         </>
       ),
+      minWidth: "150px",
     },
   ];
   const mostrarAlertaPersonalizada = (mensaje: string) => {

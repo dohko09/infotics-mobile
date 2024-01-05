@@ -48,17 +48,21 @@ const Messages: React.FC = () => {
       name: "ID",
       selector: (row: any) => row.id,
       sortable: true,
-      width: "15%",
+      minWidth: "100px",
     },
     {
       name: "Usuario",
       selector: (row: any) => row.full_name,
       sortable: true,
+      minWidth: "250px",
+      wrap: true,
     },
     {
       name: "Mensaje",
       selector: (row: any) => row.message,
       sortable: true,
+      minWidth: "400px",
+      wrap: true,
     },
     {
       name: "Fecha creación",
@@ -70,6 +74,7 @@ const Messages: React.FC = () => {
         }
       },
       sortable: true,
+      minWidth: "200px",
     },
 
     {
@@ -82,6 +87,7 @@ const Messages: React.FC = () => {
           <i className="fas fa-eye"></i>
         </span>
       ),
+      minWidth: "150px",
     },
   ];
 

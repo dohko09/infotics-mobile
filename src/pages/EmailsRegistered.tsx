@@ -58,12 +58,14 @@ const EmailsRegistered: React.FC = () => {
       name: "ID",
       selector: (row: any) => row.id,
       sortable: true,
-      width: "15%",
+      minWidth: "100px",
     },
     {
       name: "Correo electrónico",
       selector: (row: any) => row.mail,
       sortable: true,
+      minWidth: "300px",
+      wrap: true,
     },
     {
       name: "Fecha creación",
@@ -75,6 +77,7 @@ const EmailsRegistered: React.FC = () => {
         }
       },
       sortable: true,
+      minWidth: "200px",
     },
     {
       name: "Acciones",
@@ -97,6 +100,7 @@ const EmailsRegistered: React.FC = () => {
           </span>
         </>
       ),
+      minWidth: "150px",
     },
   ];
   const filteredData = data.filter((item: any) =>
