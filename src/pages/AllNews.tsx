@@ -20,8 +20,6 @@ import {
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { formatearFecha } from "../functions/methods";
-import * as timeago from "timeago.js";
-import es from "timeago.js/lib/lang/es";
 import { Plugins } from "@capacitor/core";
 const { Share } = Plugins;
 
@@ -34,8 +32,6 @@ const AllNews: React.FC = () => {
   const [image, setImage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showModalDetail, setShowModalDetail] = useState(false);
-
-  timeago.register("es", es);
   useEffect(() => {
     getNews();
   }, []);
@@ -135,8 +131,7 @@ const AllNews: React.FC = () => {
                       <IonCardContent>
                         <IonText style={{ textAlign: "center" }}>
                           <p>
-                            <b>Creado: </b> {formatearFecha(item.created_at)} |{" "}
-                            {timeago.format(item.created_at, "es")}
+                            <b>Creado: </b> {formatearFecha(item.created_at)}
                           </p>
 
                           <p>

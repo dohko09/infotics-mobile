@@ -19,6 +19,7 @@ const Profile: React.FC = () => {
     mail: "",
   });
   const [secret, setSecret] = useState("");
+  const [oldSecret, setOldSecret] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [messageCustom, setMessageCustom] = useState("");
 
@@ -37,6 +38,10 @@ const Profile: React.FC = () => {
     setSecret(e.target.value);
   };
 
+  const handleOldSecretChange = (e: any) => {
+    setOldSecret(e.target.value);
+  };
+
   const mostrarAlertaPersonalizada = (mensaje: string) => {
     setMessageCustom(mensaje);
     setIsOpen(true);
@@ -49,15 +54,50 @@ const Profile: React.FC = () => {
       let response: any = "";
       const full_name = data.full_name;
       const pin = secret;
+      const oldPin = oldSecret;
 
-      if (pin.trim().length === 0) {
+      if (
+        pin.trim().length === 0 &&
+        oldPin.trim().length === 0 &&
+        full_name.trim().length > 8
+      ) {
         response = await axios.put(`${API}/${id}/edit-profile-no-password`, {
           full_name,
         });
       } else {
+        if (full_name.trim().length < 8) {
+          mostrarAlertaPersonalizada(
+            "El nombre debe tener al menos 8 caracteres"
+          );
+          return;
+        }
+
+        if (pin.length < 8) {
+          mostrarAlertaPersonalizada(
+            "La contraseña debe tener al menos 8 caracteres"
+          );
+          return;
+        }
+        if (oldPin.trim().length === 0) {
+          mostrarAlertaPersonalizada("Debe ingresar su contraseña actual");
+          return;
+        }
+        if (oldPin === pin) {
+          mostrarAlertaPersonalizada(
+            "La contraseña nueva debe ser diferente a la actual"
+          );
+          return;
+        }
+
+        if (pin.trim().length === 0) {
+          mostrarAlertaPersonalizada("Debe ingresar una contraseña nueva");
+          return;
+        }
+
         response = await axios.put(`${API}/${id}/edit-profile`, {
           full_name,
           pin,
+          oldPin,
         });
       }
 
@@ -68,6 +108,7 @@ const Profile: React.FC = () => {
         setData(JSON.parse(storedUser));
       }
       setSecret("");
+      setOldSecret("");
       mostrarAlertaPersonalizada(response.data.message);
     } catch (error: any) {
       // Mostrar mensaje de error
@@ -94,7 +135,6 @@ const Profile: React.FC = () => {
               >
                 <form onSubmit={handleSubmit}>
                   <div className="col-12">
-                    <p>Nombres</p>
                     <div className="mb-3">
                       <div className="input-group">
                         <span className="input-group-text">
@@ -112,7 +152,6 @@ const Profile: React.FC = () => {
                     </div>
                   </div>
                   <div className="col-12">
-                    <p>Correo electronico</p>
                     <div className="mb-3">
                       <div className="input-group">
                         <span className="input-group-text">
@@ -131,7 +170,6 @@ const Profile: React.FC = () => {
                     </div>
                   </div>
                   <div className="col-12">
-                    <p>Contraseña</p>
                     <div className="mb-3">
                       <div className="input-group">
                         <span className="input-group-text">
@@ -141,9 +179,26 @@ const Profile: React.FC = () => {
                           type="password"
                           className="form-control"
                           id="secret"
-                          placeholder="Nueva Clave"
+                          placeholder="Contraseña actual"
                           value={secret}
                           onChange={handleSecretChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <div className="mb-3">
+                      <div className="input-group">
+                        <span className="input-group-text">
+                          <i className="fas fa-lock"></i>
+                        </span>
+                        <input
+                          type="password"
+                          className="form-control"
+                          id="oldSecret"
+                          placeholder="Nueva contraseña"
+                          value={oldSecret}
+                          onChange={handleOldSecretChange}
                         />
                       </div>
                     </div>
