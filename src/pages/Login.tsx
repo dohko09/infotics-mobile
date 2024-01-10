@@ -75,59 +75,60 @@ const Login: React.FC = () => {
             alt="Logo"
             style={{ height: "128px" }}
             className="mb-4"
-          ></IonImg>
+          />
           <h1 className="text-center mb-4">Credenciales de acceso</h1>
-          <form onSubmit={handleLogin} className="container">
-            <div className="row justify-content-center">
-              <div className="col-md-12 mb-3">
-                <div className="input-group">
-                  <span className="input-group-text">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                  <input
-                    type="email"
-                    name="email"
-                    className="form-control"
-                    autoComplete="off"
-                    placeholder="Digite su correo electrónico"
-                    required
-                    value={email}
-                    onChange={handleInputChange}
-                  />
-                </div>
+          <form onSubmit={handleLogin}>
+            <div className="col-md-12 mb-3">
+              <label htmlFor="email" className="form-label">
+                Correo Electrónico
+              </label>
+              <div className="input-group">
+                <span className="input-group-text">
+                  <i className="fas fa-envelope"></i>
+                </span>
+                <input
+                  type="email"
+                  name="email"
+                  className="form-control"
+                  autoComplete="off"
+                  placeholder="Digite su correo electrónico"
+                  required
+                  value={email}
+                  onChange={handleInputChange}
+                />
               </div>
-              <div className="col-md-12 mb-3">
-                <div className="input-group">
-                  <span className="input-group-text">
-                    <i className="fas fa-lock"></i>
-                  </span>
-                  <input
-                    type="password"
-                    name="pin"
-                    className="form-control"
-                    autoComplete="off"
-                    placeholder="Digite su clave"
-                    required
-                    value={pin}
-                    onChange={handleInputChange}
-                  />
-                </div>
+            </div>
+            <div className="col-md-12 mb-3">
+              <label htmlFor="pin" className="form-label">
+                Contraseña
+              </label>
+              <div className="input-group">
+                <span className="input-group-text">
+                  <i className="fas fa-lock"></i>
+                </span>
+                <input
+                  type="password"
+                  name="pin"
+                  className="form-control"
+                  autoComplete="off"
+                  placeholder="Digite su contraseña"
+                  required
+                  value={pin}
+                  onChange={handleInputChange}
+                />
               </div>
-              <div className="col-md-7 d-flex justify-content-center">
-                <button
-                  type="submit"
-                  className="btn btn-primary col-md-12 mb-3"
-                >
-                  Iniciar sesión
-                </button>
-              </div>
-              <div className="col-md-7 d-flex justify-content-center">
-                <p>
-                  <Link to="/recover-password" className="btn btn-link">
-                    Olvide mi contraseña
-                  </Link>
-                </p>
-              </div>
+            </div>
+            <div className="d-grid">
+              <button type="submit" className="btn btn-primary">
+                Iniciar sesión
+              </button>
+            </div>
+            <div className="text-center mt-3">
+              <p>
+                <Link to="/recover-password" className="btn btn-link">
+                  Olvidé mi contraseña
+                </Link>
+              </p>
             </div>
           </form>
         </IonContent>

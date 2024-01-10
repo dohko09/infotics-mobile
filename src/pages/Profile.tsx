@@ -51,7 +51,7 @@ const Profile: React.FC = () => {
     const id = data.id;
 
     try {
-      let response: any = "";
+      let response: any = null;
       const full_name = data.full_name;
       const pin = secret;
       const oldPin = oldSecret;
@@ -178,10 +178,10 @@ const Profile: React.FC = () => {
                         <input
                           type="password"
                           className="form-control"
-                          id="secret"
+                          id="oldSecret"
                           placeholder="Contraseña actual"
-                          value={secret}
-                          onChange={handleSecretChange}
+                          value={oldSecret}
+                          onChange={handleOldSecretChange}
                         />
                       </div>
                     </div>
@@ -195,10 +195,10 @@ const Profile: React.FC = () => {
                         <input
                           type="password"
                           className="form-control"
-                          id="oldSecret"
+                          id="secret"
                           placeholder="Nueva contraseña"
-                          value={oldSecret}
-                          onChange={handleOldSecretChange}
+                          value={secret}
+                          onChange={handleSecretChange}
                         />
                       </div>
                     </div>

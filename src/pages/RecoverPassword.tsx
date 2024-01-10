@@ -68,11 +68,10 @@ const RecoverPassword: React.FC = () => {
                     />
                   </div>
                 </div>
-                <div className="col-md-8 d-flex justify-content-center">
-                  <button
-                    type="submit"
-                    className="btn btn-primary col-md-6 mb-3"
-                  >
+              </div>
+              <div className="row justify-content-center">
+                <div className="col-md-6 d-flex justify-content-center">
+                  <button type="submit" className="btn btn-primary col-12 mb-3">
                     <i className="fas fa-unlock"></i> Restablecer
                   </button>
                 </div>
