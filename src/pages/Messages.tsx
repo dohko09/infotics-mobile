@@ -21,6 +21,7 @@ const Messages: React.FC = () => {
   const [user, setUser] = useState("");
   const [message, setMessage] = useState("");
   const [created_at, setCreated_at] = useState("");
+  const userData: any = JSON.parse(localStorage.getItem("user") || "null");
   const API = "https://infotic.up.railway.app/api/v1/metrics";
   useEffect(() => {
     fetchData();
@@ -28,7 +29,11 @@ const Messages: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${API}/messages`);
+      const response = await axios.get(`${API}/messages`, {
+        headers: {
+          Authorization: `${userData.token}`,
+        },
+      });
       setData(response.data);
       setLoading(false);
     } catch (error) {

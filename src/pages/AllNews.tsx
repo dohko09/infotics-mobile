@@ -41,7 +41,11 @@ const AllNews: React.FC = () => {
     let response;
     try {
       user?.category === "Administrador" || user?.category === "Miembro"
-        ? (response = await axios.get(`${API}/news/all`))
+        ? (response = await axios.get(`${API}/news/all`, {
+            headers: {
+              Authorization: `${user.token}`,
+            },
+          }))
         : (response = await axios.get(`${API}/news/public`));
       setNews(response.data);
       setLoading(false);

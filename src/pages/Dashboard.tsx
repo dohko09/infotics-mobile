@@ -19,14 +19,31 @@ const Dashboard: React.FC = () => {
   const [logsLast, setLogsLast] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const user: any | null = JSON.parse(localStorage.getItem("user") || "null");
   const API = "https://infotic.up.railway.app/api/v1/metrics";
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const totalUsersResponse = await axios.get(`${API}/total-users`);
-        const logsTodayResponse = await axios.get(`${API}/total-income-today`);
-        const logsLastResponse = await axios.get(`${API}/income-logs-last-7-days`);
-        const totalNewsResponse = await axios.get(`${API}/total-published-news`);
+        const totalUsersResponse = await axios.get(`${API}/total-users`, {
+          headers: {
+            Authorization: `${user.token}`,
+          },
+        });
+        const logsTodayResponse = await axios.get(`${API}/total-income-today`, {
+          headers: {
+            Authorization: `${user.token}`,
+          },
+        });
+        const logsLastResponse = await axios.get(`${API}/income-logs-last-7-days`, {
+          headers: {
+            Authorization: `${user.token}`,
+          },
+        });
+        const totalNewsResponse = await axios.get(`${API}/total-published-news`, {
+          headers: {
+            Authorization: `${user.token}`,
+          },
+        });
         const totalUsersData = totalUsersResponse.data;
         const logsTodayData = logsTodayResponse.data;
         const totalNewsData = totalNewsResponse.data;

@@ -13,7 +13,7 @@ import axios from "axios";
 
 const Contact: React.FC = () => {
   const API = "https://infotic.up.railway.app/api/v1/users";
-
+  const userData:any = JSON.parse(localStorage.getItem("user")||"null");
   const [user, setUser] = useState({
     id: 0,
     full_name: "",
@@ -22,9 +22,9 @@ const Contact: React.FC = () => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    
+    if (userData) {
+      setUser(userData);
     }
   }, []);
 
@@ -35,6 +35,11 @@ const Contact: React.FC = () => {
       const response = await axios.post(`${API}/message`, {
         id,
         message,
+      },
+      {
+        headers: {
+          Authorization: `${userData.token}`,
+        },
       });
       mostrarAlertaPersonalizada(response.data.message);
       // Restablecer el formulario después de enviar

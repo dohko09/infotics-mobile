@@ -32,6 +32,7 @@ const EmailsRegistered: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false); // Alerta de eliminación de correo
   const [messageCustom, setMessageCustom] = useState("");
   const [register, setRegister] = useState([]);
+  const user: any = JSON.parse(localStorage.getItem("user") || "null");
   const API = "https://infotic.up.railway.app/api/v1/emails";
   useEffect(() => {
     fetchData();
@@ -39,7 +40,11 @@ const EmailsRegistered: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${API}/all`);
+      const response = await axios.get(`${API}/all`, {
+        headers: {
+          Authorization: `${user.token}`,
+        },
+      });
       setData(response.data);
       setLoading(false);
     } catch (error) {
@@ -134,10 +139,18 @@ const EmailsRegistered: React.FC = () => {
 
   const handleAddEmail = async () => {
     try {
-      const response = await axios.post(`${API}/create`, {
-        mail: newEmail,
-        role: newRol,
-      });
+      const response = await axios.post(
+        `${API}/create`,
+        {
+          mail: newEmail,
+          role: newRol,
+        },
+        {
+          headers: {
+            Authorization: `${user.token}`,
+          },
+        }
+      );
       setMessageCustom(response.data.message);
       handleCloseModal();
       setNewEmail("");
@@ -151,10 +164,18 @@ const EmailsRegistered: React.FC = () => {
 
   const handleUpdateEmail = async () => {
     try {
-      const response = await axios.put(`${API}/update/${emailIdInEdit}`, {
-        mail: editingEmail,
-        role: editingRol,
-      });
+      const response = await axios.put(
+        `${API}/update/${emailIdInEdit}`,
+        {
+          mail: editingEmail,
+          role: editingRol,
+        },
+        {
+          headers: {
+            Authorization: `${user.token}`,
+          },
+        }
+      );
       setMessageCustom(response.data.message);
       handleCloseModal();
       fetchData();
@@ -167,7 +188,11 @@ const EmailsRegistered: React.FC = () => {
 
   const handleDeleteEmail = async (email: any) => {
     try {
-      const response = await axios.delete(`${API}/delete/${email.id}`);
+      const response = await axios.delete(`${API}/delete/${email.id}`, {
+        headers: {
+          Authorization: `${user.token}`,
+        },
+      });
       setMessageCustom(response.data.message);
       fetchData();
     } catch (error: any) {

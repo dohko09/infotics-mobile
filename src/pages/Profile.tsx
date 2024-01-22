@@ -13,6 +13,7 @@ import axios from "axios";
 
 const Profile: React.FC = () => {
   const API = "https://infotic.up.railway.app/api/v1/users";
+  const userData: any = JSON.parse(localStorage.getItem("user") || "null");
   const [data, setData] = useState({
     id: 0,
     full_name: "",
@@ -24,9 +25,8 @@ const Profile: React.FC = () => {
   const [messageCustom, setMessageCustom] = useState("");
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setData(JSON.parse(storedUser));
+    if (userData) {
+      setData(userData);
     }
   }, []);
 
@@ -61,9 +61,17 @@ const Profile: React.FC = () => {
         oldPin.trim().length === 0 &&
         full_name.trim().length > 8
       ) {
-        response = await axios.put(`${API}/${id}/edit-profile-no-password`, {
-          full_name,
-        });
+        response = await axios.put(
+          `${API}/${id}/edit-profile-no-password`,
+          {
+            full_name,
+          },
+          {
+            headers: {
+              Authorization: `${userData.token}`,
+            },
+          }
+        );
       } else {
         if (full_name.trim().length < 8) {
           mostrarAlertaPersonalizada(
@@ -94,18 +102,28 @@ const Profile: React.FC = () => {
           return;
         }
 
-        response = await axios.put(`${API}/${id}/edit-profile`, {
-          full_name,
-          pin,
-          oldPin,
-        });
+        response = await axios.put(
+          `${API}/${id}/edit-profile`,
+          {
+            full_name,
+            pin,
+            oldPin,
+          },
+          {
+            headers: {
+              Authorization: `${userData.token}`,
+            },
+          }
+        );
       }
 
       const { user } = response.data;
       localStorage.setItem("user", JSON.stringify(user));
-      const storedUser = localStorage.getItem("user");
+      const storedUser: any = JSON.parse(
+        localStorage.getItem("user") || "null"
+      );
       if (storedUser) {
-        setData(JSON.parse(storedUser));
+        setData(storedUser);
       }
       setSecret("");
       setOldSecret("");
